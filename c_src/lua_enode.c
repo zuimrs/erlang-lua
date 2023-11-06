@@ -86,6 +86,11 @@ Erlang -> Lua
 #endif
 #include <fcntl.h>
 
+
+#ifndef _REENTRANT
+#define _REENTRANT /* For some reason __erl_errno is undefined unless _REENTRANT is defined */
+#endif
+
 #include "ei.h"
 extern int ei_tracelevel;
 extern void erl_init(void *hp,long heap_size);
@@ -94,7 +99,7 @@ extern void erl_init(void *hp,long heap_size);
 #include "lualib.h"
 #include "lauxlib.h"
 
-#if LUA_VERSION_NUM==502
+#if LUA_VERSION_NUM>=502
 #	define lua_objlen lua_rawlen
 #endif
 
